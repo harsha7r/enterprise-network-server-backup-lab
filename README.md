@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This project demonstrates hands-on IT infrastructure administration using Microsoft Hyper-V and Windows Server. It is designed to practise the skills required for Level 1 Network Engineer, IT Support and Junior Systems Administrator roles.
+This project demonstrates hands-on IT infrastructure administration using Microsoft Hyper-V and Windows Server. It is designed to practise the skills required for Network Engineer, IT Support and Junior Systems Administrator roles.
 
 The lab will progressively cover network configuration, server administration, user management, backups, recovery, monitoring and troubleshooting.
 
