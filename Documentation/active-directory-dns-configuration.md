@@ -2,46 +2,69 @@
 
 ## 1. Objective
 
-Prepare `SRV-DC01` to provide Active Directory Domain Services (AD DS) and DNS for an isolated enterprise lab.
+Prepare the Windows Server lab for Active Directory Domain Services (AD DS), DNS configuration, and domain controller deployment.
 
-## 2. Environment
+## 2. Lab Environment
 
 | Setting | Value |
 |---|---|
-| Server | `SRV-DC01` |
+| Server name | `SRV-DC01` |
 | Operating system | Windows Server Evaluation |
-| Static IPv4 | `192.168.50.10` |
+| Network adapter | `Ethernet` |
+| Static IPv4 address | `192.168.50.10` |
 | Subnet prefix | `/24` |
-| Hyper-V network | `LAB-Private` |
+| Hyper-V switch | `LAB-Private` |
 | Planned domain | `corp.example.com` |
 
 ## 3. Install Active Directory Domain Services
 
-### Command
-
 ```powershell
 Install-WindowsFeature AD-Domain-Services -IncludeManagementTools
 ```
-
 **Explanation:** Installs the AD DS server role and its management tools.
 
-### Validation command
+### Validation
 
 ```powershell
 Get-WindowsFeature AD-Domain-Services
 ```
-
 **Explanation:** Checks whether the AD DS role is installed.
 
-## 4. Results
+**Observed result:** Installation succeeded, and the role state was `Installed`.
 
-- AD DS role installation: Pending validation
-- Domain controller promotion: Not started
-- DNS service validation: Not started
+Evidence: `../Screenshots/06-adds-role-installation.png`
 
-## 5. Next Steps
+## 4. Configure DNS Client Settings
 
-- Verify the AD DS role installation.
-- Promote `SRV-DC01` to a domain controller.
-- Create the `corp.example.com` lab domain.
-- Validate DNS resolution and domain services.
+### Configure the DNS Server Address
+
+```powershell
+Set-DnsClientServerAddress -InterfaceAlias "Ethernet" -ServerAddresses "192.168.50.10"
+```
+**Explanation:** Configures the server to use its static IPv4 address as its preferred DNS server.
+
+### Validate DNS Client Settings
+
+```powershell
+Get-DnsClientServerAddress -InterfaceAlias "Ethernet" -AddressFamily IPv4
+```
+**Explanation:** Displays the DNS server address configured on the Ethernet adapter.
+
+**Expected result:** `192.168.50.10` appears under `ServerAddresses`.
+
+Evidence: `../Screenshots/07-dns-client-validation.png`
+
+## 5. Current Status
+
+- [x] Static IPv4 address configured.
+- [x] AD DS role installed.
+- [ ] DNS client configuration verified.
+- [ ] Domain controller promotion completed.
+- [ ] DNS service and domain name resolution validated.
+
+## 6. Next Steps
+
+1. Verify DNS client configuration.
+2. Promote `SRV-DC01` to a domain controller.
+3. Create the `corp.example.com` lab domain and install DNS.
+4. Validate domain controller health and DNS resolution.
